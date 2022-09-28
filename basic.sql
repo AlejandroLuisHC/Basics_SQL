@@ -248,19 +248,22 @@ WHERE dept_no = 'MRKT';
 -- Select employees where salary higher than 20k 
 SELECT s.emp_no, e.first_name, e.last_name
 FROM salaries AS s
-LEFT JOIN employees AS e ON s.emp_no = e.emp_no 
+    LEFT JOIN employees AS e 
+    ON s.emp_no = e.emp_no 
 WHERE salary > 20000;
 
 -- Select employees where salary lower than 10k
 SELECT s.emp_no, e.first_name, e.last_name
 FROM salaries AS s
-LEFT JOIN employees AS e ON s.emp_no = e.emp_no 
+    LEFT JOIN employees AS e
+    ON s.emp_no = e.emp_no 
 WHERE salary < 10000;
 
 -- Select employees where salary between 14k and 50k
 SELECT s.emp_no, e.first_name, e.last_name
 FROM salaries AS s
-LEFT JOIN employees AS e ON s.emp_no = e.emp_no 
+    LEFT JOIN employees AS e 
+    ON s.emp_no = e.emp_no 
 WHERE salary > 14000 AND salary < 50000;
 
 -- Total number of employees
@@ -279,7 +282,8 @@ FROM (
 -- Titles of 2020 
 SELECT e.first_name, e.last_name, t.title, t.to_date
 FROM titles AS t
-LEFT JOIN employees AS e ON t.emp_no = e.emp_no
+    LEFT JOIN employees AS e 
+    ON t.emp_no = e.emp_no
 WHERE t.to_date > '2019-12-31';
 
 -- Select employees' names in capital letters
@@ -291,9 +295,11 @@ SELECT e.first_name, e.last_name, dnames.dept_name
 FROM (
     SELECT d.emp_no, dept.dept_name
     FROM dept_emp AS d
-    LEFT JOIN departments AS dept ON d.dept_no = dept.dept_no
+        LEFT JOIN departments AS dept 
+        ON d.dept_no = dept.dept_no
 ) AS dnames
-RIGHT JOIN employees AS e ON dnames.emp_no = e.emp_no;
+    RIGHT JOIN employees AS e 
+    ON dnames.emp_no = e.emp_no;
 
 -- Select employees' name and times as manager, excluded never-manager employees
 SELECT e.first_name, e.last_name, m.times_manager
@@ -302,7 +308,8 @@ FROM (
 	FROM dept_manager 
 	GROUP BY emp_no
 ) AS m
-LEFT JOIN employees AS e ON m.emp_no = e.emp_no;
+    LEFT JOIN employees AS e 
+    ON m.emp_no = e.emp_no;
 
 -- Select employee's names but repeated ones
 SELECT first_name, last_name
@@ -326,14 +333,14 @@ SET SQL_SAFE_UPDATES = 1;
 SET SQL_SAFE_UPDATES = 0;
 
 DELETE depts FROM departments AS depts
-JOIN (
-	SELECT dept_no, COUNT(emp_no) AS num_emp 
-    FROM dept_emp 
-    GROUP BY dept_no
-    ORDER BY num_emp DESC
-    LIMIT 1
-) AS d
-ON depts.dept_no = d.dept_no
+    JOIN (
+        SELECT dept_no, COUNT(emp_no) AS num_emp 
+        FROM dept_emp 
+        GROUP BY dept_no
+        ORDER BY num_emp DESC
+        LIMIT 1
+    ) AS d
+    ON depts.dept_no = d.dept_no
 WHERE depts.dept_no = d.dept_no;
 
 SET SQL_SAFE_UPDATES = 1;
