@@ -343,4 +343,13 @@ DELETE depts FROM departments AS depts
     ON depts.dept_no = d.dept_no
 WHERE depts.dept_no = d.dept_no;
 
+-- DELETE FROM departments     -- ANOTHER OPTION 
+--   WHERE dept_no = (
+--     SELECT dept_no 
+--     FROM dept_emp 
+--     GROUP BY dept_no
+--     ORDER BY COUNT(DISTINCT emp_no) DESC 
+--     LIMIT 1
+--   );
+
 SET SQL_SAFE_UPDATES = 1;
