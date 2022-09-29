@@ -312,10 +312,8 @@ FROM (
     ON m.emp_no = e.emp_no;
 
 -- Select employee's names but repeated ones
-SELECT first_name, last_name
-FROM employees
-GROUP BY first_name
-HAVING COUNT(first_name) < 2;
+SELECT DISTINCT(first_name), last_name
+FROM employees;
 
 -- Delete all employees with a salary higher than 20k
 SET SQL_SAFE_UPDATES = 0;
