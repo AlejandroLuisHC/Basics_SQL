@@ -246,32 +246,32 @@ SET dept_name = 'Marketing'
 WHERE dept_no = 'MRKT';
 
 -- Select employees where salary higher than 20k 
-SELECT s.emp_no, e.first_name, e.last_name
+SELECT s.emp_no, e.first_name, e.last_name, s.salary
 FROM salaries AS s
     LEFT JOIN employees AS e 
     ON s.emp_no = e.emp_no 
 WHERE salary > 20000;
 
 -- Select employees where salary lower than 10k
-SELECT s.emp_no, e.first_name, e.last_name
+SELECT s.emp_no, e.first_name, e.last_name, s.salary
 FROM salaries AS s
     LEFT JOIN employees AS e
     ON s.emp_no = e.emp_no 
 WHERE salary < 10000;
 
 -- Select employees where salary between 14k and 50k
-SELECT s.emp_no, e.first_name, e.last_name
+SELECT s.emp_no, e.first_name, e.last_name, s.salary
 FROM salaries AS s
     LEFT JOIN employees AS e 
     ON s.emp_no = e.emp_no 
 WHERE salary > 14000 AND salary < 50000;
 
 -- Total number of employees
-SELECT COUNT(emp_no) 
+SELECT COUNT(emp_no) AS total_emp
 FROM employees;
 
 -- Number of employees working in more than 1 department
-SELECT COUNT(rep.emp_no)
+SELECT COUNT(rep.emp_no) AS emp_2more_depts
 FROM (
 	SELECT emp_no 
 	FROM dept_emp 
@@ -353,3 +353,16 @@ WHERE depts.dept_no = d.dept_no;
 --   );
 
 SET SQL_SAFE_UPDATES = 1;
+
+-- Number of employees working in more than 1 department and their departments
+SELECT e.first_name, e.last_name , d_emp.depts_emp
+FROM (
+	SELECT de.emp_no, GROUP_CONCAT(d.dept_name) AS depts_emp
+	FROM dept_emp AS de
+        LEFT JOIN departments AS d
+        ON d.dept_no = de.dept_no
+	GROUP BY emp_no
+	HAVING COUNT(emp_no) > 1
+) AS d_emp
+	LEFT JOIN employees AS e
+    ON e.emp_no = d_emp.emp_no;
