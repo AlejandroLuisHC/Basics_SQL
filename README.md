@@ -1,3 +1,4 @@
+`#sql` `#master-in-software-development`
 # Basics_SQL
 The main purpouse of this proyect is to get grips with mySQL and its syntax as well as to get in contact with the different tools available to manage data in a database. 
 
